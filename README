@@ -1,0 +1,16 @@
+./manage.py makemigrations
+./manage.py migrate
+./manage.py createsuperuser
+./manage.py runserver
+
+_______________________________________________________________________________
+
+$ mkdir apps/core
+$ ./manage.py startapp core apps/core
+
+$ mkdir apps/item
+$ ./manage.py startapp item apps/item
+
+$ mkdir apps/userprofile
+$ ./manage.py startapp userprofile apps/userprofile
+_______________________________________________________________________________
