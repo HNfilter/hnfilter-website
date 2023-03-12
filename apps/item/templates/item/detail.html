@@ -1,0 +1,46 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<h1>{{ item.title }}</h1>
+
+      <a href="{{ item.url}}">{{ item.title }}</a>
+      <p>{{ item.number_of_votes }} votes by {{ item.created_by.username}} {{ item.created_at|timesince}} ago</p>
+
+      <!-- vote -->
+      {% if not item.created_by == request.user %}
+      <a href="{% url 'vote' item.id %}?next_page=detailed">Vote</a>
+      {% endif %}
+
+      <!-- auther -->
+      <p>By: <a href="{% url 'userprofile' item.created_by.username %}">{{ item.created_by.username }}</a>
+      {{ item.created_at|timesince}} ago</p>
+
+      <p>Visit: <a href="{{ item.url }}">{{ item.url }}</a></p>
+      <hr>
+
+      <!-- View all comments -->
+         {% for comment in item.comments.all %}
+            {{ comment.created_by.username }}
+            <p>
+               {{ comment.body }}
+            </p>
+            {{ comment.created_at|timesince}} ago
+            <hr>
+            {% empty %}
+            <p>No Comments yet!</p>
+         {% endfor %}
+      <!-- End View all comments -->
+
+
+      {% if request.user.is_authenticated %}
+         <h2>Add comment</h2>
+         <form method="post" action=".">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button>Submit</button>
+         </form>
+      {% else %}
+         <p>Please log in to comment!</p>
+      {% endif%}
+
+{% endblock %}

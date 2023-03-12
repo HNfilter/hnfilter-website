@@ -1,0 +1,22 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+   <h1>Welcome to Homepage</h1>
+
+   {% for item in items %}
+      {{ forloop.counter }}
+      <a href="{{ item.url}}">{{ item.title }}</a>
+      <p>{{ item.number_of_votes }} votes by {{ item.created_by.username}} {{ item.created_at|timesince}} ago</p>
+
+      <!-- vote -->
+      {% if not item.created_by == request.user %}
+      <a href="{% url 'vote' item.id %}">Vote</a>
+      {% endif %}
+
+      <!-- detail -->
+      <a href="{% url 'item_detail' item.id %}">More</a>
+
+      <hr>
+   {% endfor %}
+
+{% endblock %}
