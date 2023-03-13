@@ -12,9 +12,10 @@ def frontpage(request):
     #items = Item.objects.filter(created_at__gte=date_from).order_by('-number_of_votes')[0:30]
     items = Item.objects.order_by('-number_of_votes')[0:30]
 
-    return render(request, 'item/frontpage.html', {
+    context = {
         'items': items
-        })
+    }
+    return render(request, 'item/frontpage.html', context)
 
 def search(request):
     query = request.GET.get('query', '')
@@ -24,14 +25,18 @@ def search(request):
     else:
         items = []
 
-    return render(request, 'item/search.html', {'items': items, 'query': query})
+    context = {
+        'items': items, 'query': query
+    }
+    return render(request, 'item/search.html', context)
 
 def newest(request):
     items = Item.objects.all()[0:200]
 
-    return render(request, 'item/frontpage.html', {
+    context = {
         'items': items
-        })
+    }
+    return render(request, 'item/frontpage.html', context)
 
 @login_required
 def submit(request):
@@ -46,9 +51,10 @@ def submit(request):
     else:
         form = ItemFrom()
 
-    return render(request, 'item/submit.html', {
-        'form': form,
-        })
+    context = {
+        'form': form
+    }
+    return render(request, 'item/submit.html', context)
 
 
 def item_detail(request, item_id):
@@ -67,7 +73,11 @@ def item_detail(request, item_id):
     else:
         form = CommentForm()
 
-    return render(request, 'item/detail.html', {'item': item, 'form': form})
+    context = {
+        'item': item,
+        'form': form
+    }
+    return render(request, 'item/detail.html', context)
 
 @login_required
 def vote(request, item_id):

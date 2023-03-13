@@ -9,10 +9,11 @@ def userprofile(request, username): # SMA: required login ??
     for item in user.items.all():
         number_of_votes = number_of_votes + (item.number_of_votes)
 
-    return render(request, 'userprofile/userprofile.html', {
+    context = {
         'user': user,
         'number_of_votes': number_of_votes,
-        })
+    }
+    return render(request, 'userprofile/userprofile.html', context)
 
 def votes(request, username): # SMA: required login ??
     user = get_object_or_404(User, username=username)
@@ -23,16 +24,18 @@ def votes(request, username): # SMA: required login ??
     for vote in votes:
         items.append(vote.item)
 
-    return render(request, 'userprofile/votes.html', {
+    context = {
         'user': user,
         'items': items,
-        })
+    }
+    return render(request, 'userprofile/votes.html', context)
 
 def submissions(request, username):
     user = get_object_or_404(User, username=username)
     items = user.items.all()
 
-    return render(request, 'userprofile/submissions.html', {
+    context = {
         'user': user,
         'items': items,
-        })
+    }
+    return render(request, 'userprofile/submissions.html', context)
